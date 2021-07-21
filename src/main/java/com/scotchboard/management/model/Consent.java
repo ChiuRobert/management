@@ -80,7 +80,7 @@ public class Consent {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(channelConsent, channelName, consentType);
+		return Objects.hash(channelConsent, channelName, consentType, customer);
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class Consent {
 			return false;
 		Consent other = (Consent) obj;
 		return Objects.equals(channelConsent, other.channelConsent) && channelName == other.channelName
-				&& consentType == other.consentType;
+				&& consentType == other.consentType && Objects.equals(customer, other.customer);
 	}
 
 	@Override
