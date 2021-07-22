@@ -1,7 +1,6 @@
 package com.scotchboard.management.util;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,39 +28,87 @@ public final class Generator {
 	public void generate() {
 		LOGGER.info("Generating started");
 		
+		setupCustomer1();
+		setupCustomer2();
+		setupCustomer3();
+		
+		LOGGER.info("Generating ended");
+	}
+	
+	private void setupCustomer1() {
 		Customer customer = new Customer();
 		customer.setFirstName("Ceapa");
 		customer.setLastName("Rosie");
 		customer.setPersonalNumber(1234);
 		
-		Customer customer2 = new Customer();
-		customer2.setFirstName("George");
-		customer2.setLastName("Bush");
-		customer2.setPersonalNumber(13225);
-		
-		Consent consent = new Consent();
-		consent.setChannelConsent(true);
-		consent.setChannelName(ChannelName.EMAIL);
-		consent.setConsentType(ConsentType.MARKETING);
+		Consent consent1 = new Consent();
+		consent1.setConsentType(ConsentType.ESSENTIALS);
+		consent1.setChannelName(ChannelName.EMAIL);
+		consent1.setChannelConsent(true);
 		
 		Consent consent2 = new Consent();
-		consent2.setChannelConsent(false);
+		consent2.setConsentType(ConsentType.MARKETING);
 		consent2.setChannelName(ChannelName.PHONE);
-		consent2.setConsentType(ConsentType.ESSENTIALS);
+		consent2.setChannelConsent(false);
 		
-		Set<Consent> consents = new HashSet<>();
-		consents.add(consent);
-		consents.add(consent2);
+		Consent consent3 = new Consent();
+		consent3.setConsentType(ConsentType.OTHERS);
+		consent3.setChannelName(ChannelName.PHONE);
+		consent3.setChannelConsent(true);
 		
-		customer = customerRepository.save(customer);
-		customerRepository.save(customer2);
+		Customer persistedCustomer = customerRepository.save(customer);
 		
-		consent.setCustomer(customer);
-		consent2.setCustomer(customer);
+		Arrays.asList(consent1, consent2, consent3).forEach(consent -> {
+			consent.setCustomer(persistedCustomer);
+			consentRepository.save(consent);
+		});
+	}
+	
+	private void setupCustomer2() {
+		Customer customer = new Customer();
+		customer.setFirstName("George");
+		customer.setLastName("Bush");
+		customer.setPersonalNumber(13225);
 		
-		consentRepository.save(consent);
-		consentRepository.save(consent2);
+		Consent consent1 = new Consent();
+		consent1.setConsentType(ConsentType.ESSENTIALS);
+		consent1.setChannelName(ChannelName.EMAIL);
+		consent1.setChannelConsent(true);
 		
-		LOGGER.info("Generating ended");
+		Consent consent2 = new Consent();
+		consent2.setConsentType(ConsentType.OTHERS);
+		consent2.setChannelName(ChannelName.SOCIAL);
+		consent2.setChannelConsent(true);
+		
+		Customer persistedCustomer = customerRepository.save(customer);
+		
+		Arrays.asList(consent1, consent2).forEach(consent -> {
+			consent.setCustomer(persistedCustomer);
+			consentRepository.save(consent);
+		});
+	}
+	
+	private void setupCustomer3() {
+		Customer customer = new Customer();
+		customer.setFirstName("Ion");
+		customer.setLastName("Tiriac");
+		customer.setPersonalNumber(25567);
+		
+		Consent consent1 = new Consent();
+		consent1.setConsentType(ConsentType.MARKETING);
+		consent1.setChannelName(ChannelName.PHONE);
+		consent1.setChannelConsent(true);
+		
+		Consent consent2 = new Consent();
+		consent2.setConsentType(ConsentType.MARKETING);
+		consent2.setChannelName(ChannelName.SMS);
+		consent2.setChannelConsent(true);
+		
+		Customer persistedCustomer = customerRepository.save(customer);
+		
+		Arrays.asList(consent1, consent2).forEach(consent -> {
+			consent.setCustomer(persistedCustomer);
+			consentRepository.save(consent);
+		});
 	}
 }

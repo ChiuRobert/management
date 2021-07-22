@@ -47,6 +47,7 @@ public class ConsentBO {
 				
 				if (!exists) {
 					Consent tempConsent = new Consent();
+					tempConsent.setCustomer(customer);
 					tempConsent.setConsentType(consentType);
 					tempConsent.setChannelName(channelName);
 					tempConsent.setChannelConsent(false);
