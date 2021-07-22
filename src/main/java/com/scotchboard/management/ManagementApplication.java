@@ -7,7 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.scotchboard.management.util.Generator;
 
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 @SpringBootApplication
+@EnableSwagger2
 public class ManagementApplication implements CommandLineRunner {
 	
 	@Autowired
